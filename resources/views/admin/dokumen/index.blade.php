@@ -5,225 +5,247 @@
 
 @section('content')
     <!-- Statistik Cards -->
-    <div class="row mb-4">
-        <div class="col-lg-3 col-md-6 mb-3">
-            <div class="stat-card">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <div class="stat-number text-primary">{{ $statistik['total'] }}</div>
-                        <div class="stat-label">Total Dokumen</div>
-                    </div>
-                    <div class="stat-icon">
-                        <i class="fas fa-file-alt text-primary"></i>
-                    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <div class="text-2xl font-bold text-blue-600">{{ $statistik['total'] }}</div>
+                    <div class="text-sm text-gray-600">Total Dokumen</div>
+                </div>
+                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-file-alt text-blue-600"></i>
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6 mb-3">
-            <div class="stat-card">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <div class="stat-number text-warning">{{ $statistik['pending'] }}</div>
-                        <div class="stat-label">Menunggu Verifikasi</div>
-                    </div>
-                    <div class="stat-icon">
-                        <i class="fas fa-clock text-warning"></i>
-                    </div>
+
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <div class="text-2xl font-bold text-yellow-600">{{ $statistik['pending'] }}</div>
+                    <div class="text-sm text-gray-600">Menunggu Verifikasi</div>
+                </div>
+                <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-clock text-yellow-600"></i>
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6 mb-3">
-            <div class="stat-card">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <div class="stat-number text-success">{{ $statistik['disetujui'] }}</div>
-                        <div class="stat-label">Disetujui</div>
-                    </div>
-                    <div class="stat-icon">
-                        <i class="fas fa-check-circle text-success"></i>
-                    </div>
+
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <div class="text-2xl font-bold text-green-600">{{ $statistik['disetujui'] }}</div>
+                    <div class="text-sm text-gray-600">Disetujui</div>
+                </div>
+                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-check-circle text-green-600"></i>
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6 mb-3">
-            <div class="stat-card">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <div class="stat-number text-danger">{{ $statistik['ditolak'] }}</div>
-                        <div class="stat-label">Ditolak</div>
-                    </div>
-                    <div class="stat-icon">
-                        <i class="fas fa-times-circle text-danger"></i>
-                    </div>
+
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <div class="text-2xl font-bold text-red-600">{{ $statistik['ditolak'] }}</div>
+                    <div class="text-sm text-gray-600">Ditolak</div>
+                </div>
+                <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-times-circle text-red-600"></i>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Filter dan Search -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <form method="GET" action="{{ route('admin.dokumen') }}">
-                <div class="row">
-                    <div class="col-md-3 mb-3">
-                        <label class="form-label">Cari Peserta</label>
-                        <input type="text" name="search" class="form-control" placeholder="Nama peserta..."
-                            value="{{ request('search') }}">
-                    </div>
-                    <div class="col-md-2 mb-3">
-                        <label class="form-label">Status</label>
-                        <select name="status" class="form-control">
-                            <option value="">Semua Status</option>
-                            <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Menunggu</option>
-                            <option value="disetujui" {{ request('status') == 'disetujui' ? 'selected' : '' }}>Disetujui
-                            </option>
-                            <option value="ditolak" {{ request('status') == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2 mb-3">
-                        <label class="form-label">Jenis Dokumen</label>
-                        <select name="jenis" class="form-control">
-                            <option value="">Semua Jenis</option>
-                            @foreach ($jenisDokumen as $key => $label)
-                                <option value="{{ $key }}" {{ request('jenis') == $key ? 'selected' : '' }}>
-                                    {{ $label }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <label class="form-label">&nbsp;</label>
-                        <div class="d-flex gap-2">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-search me-1"></i>Cari
-                            </button>
-                            <a href="{{ route('admin.dokumen') }}" class="btn btn-outline-secondary">
-                                <i class="fas fa-times me-1"></i>Reset
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-2 mb-3">
-                        <label class="form-label">&nbsp;</label>
-                        <div>
-                            <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                                data-bs-target="#batchModal">
-                                <i class="fas fa-check-double me-1"></i>Batch
-                            </button>
-                        </div>
-                    </div>
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+        <form method="GET" action="{{ route('admin.dokumen') }}">
+            <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Cari Peserta</label>
+                    <input type="text" name="search"
+                        class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                        placeholder="Nama peserta..." value="{{ request('search') }}">
                 </div>
-            </form>
-        </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                    <select name="status"
+                        class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                        <option value="">Semua Status</option>
+                        <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Menunggu</option>
+                        <option value="disetujui" {{ request('status') == 'disetujui' ? 'selected' : '' }}>Disetujui
+                        </option>
+                        <option value="ditolak" {{ request('status') == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Jenis Dokumen</label>
+                    <select name="jenis"
+                        class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                        <option value="">Semua Jenis</option>
+                        @foreach ($jenisDokumen as $key => $label)
+                            <option value="{{ $key }}" {{ request('jenis') == $key ? 'selected' : '' }}>
+                                {{ $label }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="flex items-end gap-2">
+                    <button type="submit"
+                        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-search mr-1"></i>Cari
+                    </button>
+                    <a href="{{ route('admin.dokumen') }}"
+                        class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors">
+                        <i class="fas fa-times mr-1"></i>Reset
+                    </a>
+                </div>
+                <div class="flex items-end">
+                    <button type="button"
+                        class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                        onclick="openBatchModal()">
+                        <i class="fas fa-check-double mr-1"></i>Batch
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
 
     <!-- Daftar Dokumen -->
-    <div class="card">
-        <div class="card-header">
-            <h5><i class="fas fa-file-alt me-2"></i>Daftar Dokumen ({{ $dokumen->total() }})</h5>
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-900">
+                <i class="fas fa-file-alt mr-2"></i>Daftar Dokumen ({{ $dokumen->total() }})
+            </h3>
         </div>
-        <div class="card-body">
+        <div class="p-6">
             @if ($dokumen->count() > 0)
                 <!-- Bulk Actions -->
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <div>
-                        <input type="checkbox" id="selectAll" class="form-check-input me-2">
-                        <label for="selectAll" class="form-check-label">Pilih Semua</label>
+                <div class="flex justify-between items-center mb-4">
+                    <div class="flex items-center">
+                        <input type="checkbox" id="selectAll" class="rounded border-gray-300 mr-2">
+                        <label for="selectAll" class="text-sm text-gray-700">Pilih Semua</label>
                     </div>
-                    <div id="bulkActions" style="display: none;">
-                        <button class="btn btn-sm btn-success me-2" onclick="bulkApprove()">
-                            <i class="fas fa-check me-1"></i>Setujui Terpilih
+                    <div id="bulkActions" class="hidden flex gap-2">
+                        <button
+                            class="px-3 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition-colors"
+                            onclick="bulkApprove()">
+                            <i class="fas fa-check mr-1"></i>Setujui Terpilih
                         </button>
-                        <button class="btn btn-sm btn-danger" onclick="bulkReject()">
-                            <i class="fas fa-times me-1"></i>Tolak Terpilih
+                        <button
+                            class="px-3 py-2 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 transition-colors"
+                            onclick="bulkReject()">
+                            <i class="fas fa-times mr-1"></i>Tolak Terpilih
                         </button>
                     </div>
                 </div>
 
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-50">
                             <tr>
-                                <th width="50">
-                                    <input type="checkbox" class="form-check-input" id="masterCheck">
+                                <th class="w-12 px-6 py-3 text-left">
+                                    <input type="checkbox" class="rounded border-gray-300" id="masterCheck">
                                 </th>
-                                <th>Peserta</th>
-                                <th>Jenis Dokumen</th>
-                                <th>File</th>
-                                <th>Status</th>
-                                <th>Tanggal Upload</th>
-                                <th>Verifikasi</th>
-                                <th>Aksi</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Peserta</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Jenis Dokumen</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    File</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Status</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Tanggal Upload</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Verifikasi</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Aksi</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="bg-white divide-y divide-gray-200">
                             @foreach ($dokumen as $doc)
-                                <tr>
-                                    <td>
-                                        <input type="checkbox" class="form-check-input document-check"
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4">
+                                        <input type="checkbox" class="rounded border-gray-300 document-check"
                                             value="{{ $doc->id }}">
                                     </td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <div class="avatar bg-primary text-white rounded-circle me-3"
-                                                style="width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center">
+                                            <div
+                                                class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-medium mr-3">
                                                 {{ strtoupper(substr($doc->user->nama, 0, 1)) }}
                                             </div>
                                             <div>
-                                                <div class="fw-bold">{{ $doc->user->nama }}</div>
-                                                <small class="text-muted">{{ $doc->user->email }}</small>
+                                                <div class="font-medium text-gray-900">{{ $doc->user->nama }}</div>
+                                                <div class="text-sm text-gray-500">{{ $doc->user->email }}</div>
                                             </div>
                                         </div>
                                     </td>
-                                    <td>
+                                    <td class="px-6 py-4">
                                         <span
-                                            class="badge bg-info">{{ $jenisDokumen[$doc->jenis_dokumen] ?? $doc->jenis_dokumen }}</span>
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                            {{ $jenisDokumen[$doc->jenis_dokumen] ?? $doc->jenis_dokumen }}
+                                        </span>
                                     </td>
-                                    <td>
-                                        <div>{{ $doc->nama_file }}</div>
-                                        <small
-                                            class="text-muted">{{ number_format(Storage::disk('public')->size($doc->file_path) / 1024, 1) }}
-                                            KB</small>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm text-gray-900">{{ $doc->nama_file }}</div>
+                                        <div class="text-sm text-gray-500">
+                                            {{ number_format(\Illuminate\Support\Facades\Storage::disk('public')->size($doc->file_path) / 1024, 1) }}
+                                            KB
+                                        </div>
                                     </td>
-                                    <td>
+                                    <td class="px-6 py-4">
                                         @switch($doc->status_verifikasi)
                                             @case('pending')
-                                                <span class="badge bg-warning">Menunggu</span>
+                                                <span
+                                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                                    Menunggu
+                                                </span>
                                             @break
 
                                             @case('disetujui')
-                                                <span class="badge bg-success">Disetujui</span>
+                                                <span
+                                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                    Disetujui
+                                                </span>
                                             @break
 
                                             @case('ditolak')
-                                                <span class="badge bg-danger">Ditolak</span>
+                                                <span
+                                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                                    Ditolak
+                                                </span>
                                             @break
                                         @endswitch
                                     </td>
-                                    <td>{{ $doc->tanggal_upload->format('d/m/Y H:i') }}</td>
-                                    <td>
+                                    <td class="px-6 py-4 text-sm text-gray-900">
+                                        {{ $doc->tanggal_upload->format('d/m/Y H:i') }}
+                                    </td>
+                                    <td class="px-6 py-4">
                                         @if ($doc->tanggal_verifikasi)
-                                            <div>{{ $doc->tanggal_verifikasi->format('d/m/Y') }}</div>
-                                            <small class="text-muted">{{ $doc->verifiedBy?->nama }}</small>
+                                            <div class="text-sm text-gray-900">
+                                                {{ $doc->tanggal_verifikasi->format('d/m/Y') }}</div>
+                                            <div class="text-sm text-gray-500">{{ $doc->verifiedBy?->nama }}</div>
                                         @else
-                                            <span class="text-muted">-</span>
+                                            <span class="text-gray-400">-</span>
                                         @endif
                                     </td>
-                                    <td>
-                                        <div class="btn-group">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-2">
                                             <a href="{{ route('admin.dokumen.show', $doc->id) }}"
-                                                class="btn btn-sm btn-outline-primary" title="Lihat Detail">
-                                                <i class="fas fa-eye"></i>
+                                                class="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 bg-white hover:bg-gray-50 transition-colors">
+                                                <i class="fas fa-eye text-xs mr-1"></i>
                                             </a>
 
                                             @if ($doc->status_verifikasi == 'pending')
-                                                <button class="btn btn-sm btn-success"
-                                                    onclick="verifikasiDokumen({{ $doc->id }}, 'disetujui')"
-                                                    title="Setujui">
-                                                    <i class="fas fa-check"></i>
+                                                <button
+                                                    class="inline-flex items-center px-3 py-1 border border-green-300 rounded-md text-sm text-green-700 bg-green-50 hover:bg-green-100 transition-colors"
+                                                    onclick="verifikasiDokumen({{ $doc->id }}, 'disetujui')">
+                                                    <i class="fas fa-check text-xs"></i>
                                                 </button>
-                                                <button class="btn btn-sm btn-danger"
-                                                    onclick="verifikasiDokumen({{ $doc->id }}, 'ditolak')"
-                                                    title="Tolak">
-                                                    <i class="fas fa-times"></i>
+                                                <button
+                                                    class="inline-flex items-center px-3 py-1 border border-red-300 rounded-md text-sm text-red-700 bg-red-50 hover:bg-red-100 transition-colors"
+                                                    onclick="verifikasiDokumen({{ $doc->id }}, 'ditolak')">
+                                                    <i class="fas fa-times text-xs"></i>
                                                 </button>
                                             @endif
                                         </div>
@@ -235,86 +257,99 @@
                 </div>
 
                 <!-- Pagination -->
-                <div class="d-flex justify-content-center mt-4">
+                <div class="mt-6 flex justify-center">
                     {{ $dokumen->withQueryString()->links() }}
                 </div>
             @else
-                <div class="text-center py-5">
-                    <i class="fas fa-file-times text-muted" style="font-size: 4rem;"></i>
-                    <h5 class="text-muted mt-3">Tidak ada dokumen ditemukan</h5>
-                    <p class="text-muted">Coba ubah filter pencarian atau kriteria lainnya.</p>
+                <div class="text-center py-12">
+                    <i class="fas fa-file-times text-gray-300 text-6xl mb-4"></i>
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">Tidak ada dokumen ditemukan</h3>
+                    <p class="text-gray-500">Coba ubah filter pencarian atau kriteria lainnya.</p>
                 </div>
             @endif
         </div>
     </div>
 
     <!-- Modal Verifikasi -->
-    <div class="modal fade" id="verifikasiModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Verifikasi Dokumen</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <form id="verifikasiForm" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label">Status Verifikasi</label>
-                            <select name="status_verifikasi" id="statusVerifikasi" class="form-control" required>
-                                <option value="disetujui">Disetujui</option>
-                                <option value="ditolak">Ditolak</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Catatan</label>
-                            <textarea name="catatan" class="form-control" rows="3" placeholder="Berikan catatan verifikasi..."></textarea>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary">Simpan Verifikasi</button>
-                    </div>
-                </form>
+    <div id="verifikasiModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-medium text-gray-900">Verifikasi Dokumen</h3>
             </div>
+            <form id="verifikasiForm" method="POST">
+                @csrf
+                @method('PUT')
+                <div class="px-6 py-4">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Status Verifikasi</label>
+                        <select name="status_verifikasi" id="statusVerifikasi"
+                            class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500" required>
+                            <option value="disetujui">Disetujui</option>
+                            <option value="ditolak">Ditolak</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Catatan</label>
+                        <textarea name="catatan" class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                            rows="3" placeholder="Berikan catatan verifikasi..."></textarea>
+                    </div>
+                </div>
+                <div class="px-6 py-4 bg-gray-50 flex justify-end gap-3">
+                    <button type="button" onclick="closeVerifikasiModal()"
+                        class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                        Batal
+                    </button>
+                    <button type="submit"
+                        class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">
+                        Simpan Verifikasi
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
     <!-- Modal Batch Verifikasi -->
-    <div class="modal fade" id="batchModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Verifikasi Batch</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <form action="{{ route('admin.dokumen.batchVerifikasi') }}" method="POST">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="alert alert-info">
-                            <i class="fas fa-info-circle me-2"></i>
-                            Verifikasi semua dokumen yang dipilih dengan status yang sama.
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Status Verifikasi</label>
-                            <select name="status_verifikasi" class="form-control" required>
-                                <option value="disetujui">Setujui Semua</option>
-                                <option value="ditolak">Tolak Semua</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Catatan</label>
-                            <textarea name="catatan" class="form-control" rows="3" placeholder="Catatan untuk semua dokumen..."></textarea>
-                        </div>
-                        <input type="hidden" name="dokumen_ids" id="selectedDokumenIds">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary">Proses Batch</button>
-                    </div>
-                </form>
+    <div id="batchModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-medium text-gray-900">Verifikasi Batch</h3>
             </div>
+            <form action="{{ route('admin.dokumen.batchVerifikasi') }}" method="POST">
+                @csrf
+                <div class="px-6 py-4">
+                    <div class="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                        <div class="flex items-center">
+                            <i class="fas fa-info-circle text-blue-500 mr-2"></i>
+                            <span class="text-sm text-blue-700">Verifikasi semua dokumen yang dipilih dengan status yang
+                                sama.</span>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Status Verifikasi</label>
+                        <select name="status_verifikasi"
+                            class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500" required>
+                            <option value="disetujui">Setujui Semua</option>
+                            <option value="ditolak">Tolak Semua</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Catatan</label>
+                        <textarea name="catatan" class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                            rows="3" placeholder="Catatan untuk semua dokumen..."></textarea>
+                    </div>
+                    <input type="hidden" name="dokumen_ids" id="selectedDokumenIds">
+                </div>
+                <div class="px-6 py-4 bg-gray-50 flex justify-end gap-3">
+                    <button type="button" onclick="closeBatchModal()"
+                        class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                        Batal
+                    </button>
+                    <button type="submit"
+                        class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">
+                        Proses Batch
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 @endsection
@@ -339,26 +374,49 @@
             const bulkActions = document.getElementById('bulkActions');
 
             if (checkedBoxes.length > 0) {
-                bulkActions.style.display = 'block';
+                bulkActions.classList.remove('hidden');
             } else {
-                bulkActions.style.display = 'none';
+                bulkActions.classList.add('hidden');
             }
         }
 
         function verifikasiDokumen(id, status) {
             const form = document.getElementById('verifikasiForm');
             const statusSelect = document.getElementById('statusVerifikasi');
+            const modal = document.getElementById('verifikasiModal');
 
             form.action = `/admin/dokumen/${id}/verifikasi`;
             statusSelect.value = status;
 
-            // Set modal title based on status
-            const modalTitle = document.querySelector('#verifikasiModal .modal-title');
-            modalTitle.textContent = status === 'disetujui' ? 'Setujui Dokumen' : 'Tolak Dokumen';
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
 
-            // Show modal
-            const modal = new bootstrap.Modal(document.getElementById('verifikasiModal'));
-            modal.show();
+        function closeVerifikasiModal() {
+            const modal = document.getElementById('verifikasiModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function openBatchModal() {
+            const checkedBoxes = document.querySelectorAll('.document-check:checked');
+            const ids = Array.from(checkedBoxes).map(cb => cb.value);
+
+            if (ids.length === 0) {
+                alert('Pilih dokumen yang akan diverifikasi');
+                return;
+            }
+
+            document.getElementById('selectedDokumenIds').value = ids.join(',');
+            const modal = document.getElementById('batchModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeBatchModal() {
+            const modal = document.getElementById('batchModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
         }
 
         function bulkApprove() {
@@ -384,12 +442,7 @@
                 return;
             }
 
-            // Show batch modal for rejection with note
-            document.getElementById('selectedDokumenIds').value = ids.join(',');
-            document.querySelector('#batchModal select[name="status_verifikasi"]').value = 'ditolak';
-
-            const modal = new bootstrap.Modal(document.getElementById('batchModal'));
-            modal.show();
+            openBatchModal();
         }
 
         function processBatch(ids, status) {
@@ -398,15 +451,28 @@
             form.action = '{{ route('admin.dokumen.batchVerifikasi') }}';
 
             form.innerHTML = `
-        @csrf
-        <input type="hidden" name="dokumen_ids" value="${ids.join(',')}">
-        <input type="hidden" name="status_verifikasi" value="${status}">
-        <input type="hidden" name="catatan" value="Verifikasi batch oleh admin">
-    `;
+                @csrf
+                <input type="hidden" name="dokumen_ids" value="${ids.join(',')}">
+                <input type="hidden" name="status_verifikasi" value="${status}">
+                <input type="hidden" name="catatan" value="Verifikasi batch oleh admin">
+            `;
 
             document.body.appendChild(form);
             form.submit();
         }
+
+        // Close modals when clicking outside
+        document.addEventListener('click', function(e) {
+            const verifikasiModal = document.getElementById('verifikasiModal');
+            const batchModal = document.getElementById('batchModal');
+
+            if (e.target === verifikasiModal) {
+                closeVerifikasiModal();
+            }
+            if (e.target === batchModal) {
+                closeBatchModal();
+            }
+        });
 
         // Auto-refresh setiap 30 detik untuk update real-time
         setInterval(function() {
